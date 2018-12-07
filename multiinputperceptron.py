@@ -1,6 +1,7 @@
 from random import random
 
-class Perceptor:
+
+class Perceptron:
     def __init__(self, nrOfInputs):
         self.weight = []
         self.lastInput = []
@@ -16,8 +17,8 @@ class Perceptor:
         return prediction
 
     def train(self, inputs, outputs, lr):
+        errorAvg = 0
         for it in range(100000):
-            errorAvg = 0
             for input_i, input in enumerate(inputs):
                 prediction = self.predict(input)
                 error = outputs[input_i] - prediction
@@ -28,23 +29,24 @@ class Perceptor:
                     self.weight[val_i] += self.weight[val_i] * gradient
 
             errorAvg = errorAvg / len(inputs)
-            #print("Iteration: {}; Error: {}".format(it, errorAvg))
+        return errorAvg, self.weight
 
 
-#Test with two inputs; (input + input)*2 = result
+def test(innodes, i, o):
+    perceptron = Perceptron(innodes)
+    err, weights = perceptron.train(i, o, 0.001)
+    print("Error: {}; Weights: {}".format(err, weights))
+    return perceptron
+
+
+# Test with two inputs; (input + input)*2 = result
 print("Two inputs:")
 inputs = [[1, 1], [2, 3], [5, 8], [13, 21], [4, 4], [5, 5], [4, 8]]
 outputs = [4, 10, 26, 68, 16, 20, 24]
-perceptor = Perceptor(2)
-perceptor.train(inputs, outputs, 0.001)
-print(perceptor.weight)
-print(perceptor.predict([10, 10]))
+print(test(2, inputs, outputs).predict([10, 10]))
 
-#Test with three inputs; (input + input)*2+input = result
+# Test with three inputs; (input + input)*2+input = result
 print("\nThree inputs:")
 inputs = [[1, 1, 1], [2, 3, 4], [5, 8, 9], [13, 21, 22], [4, 4, 5], [5, 5, 6], [4, 8, 9]]
 outputs = [5, 14, 35, 90, 21, 26, 33]
-perceptor = Perceptor(3)
-perceptor.train(inputs, outputs, 0.001)
-print(perceptor.weight)
-print(perceptor.predict([10, 10, 5]))
+print(test(3, inputs, outputs).predict([10, 10, 5]))
