@@ -16,9 +16,9 @@ class Perceptron:
 
         return prediction
 
-    def train(self, inputs, outputs, lr):
+    def train(self, inputs, outputs, lr, ti):
         errorAvg = 0
-        for it in range(100000):
+        for it in range(ti):
             for input_i, input in enumerate(inputs):
                 prediction = self.predict(input)
                 error = outputs[input_i] - prediction
@@ -32,9 +32,9 @@ class Perceptron:
         return errorAvg, self.weight
 
 
-def test(innodes, i, o):
+def test(innodes, i, o, ti=1000000, lr=0.001):
     perceptron = Perceptron(innodes)
-    err, weights = perceptron.train(i, o, 0.001)
+    err, weights = perceptron.train(i, o, lr, ti)
     print("Error: {}; Weights: {}".format(err, weights))
     return perceptron
 
@@ -50,3 +50,9 @@ print("\nThree inputs:")
 inputs = [[1, 1, 1], [2, 3, 4], [5, 8, 9], [13, 21, 22], [4, 4, 5], [5, 5, 6], [4, 8, 9]]
 outputs = [5, 14, 35, 90, 21, 26, 33]
 print(test(3, inputs, outputs).predict([10, 10, 5]))
+
+# Test with three inputs; (input + input)*2+input+input*0.1 = result
+print("\nFour inputs:")
+inputs = [[1, 1, 1, 1], [2, 3, 4, 5], [5, 8, 9, 9], [13, 21, 22, 7], [4, 4, 5, 6], [5, 5, 6, 7], [4, 8, 9, 3]]
+outputs = [5.1, 14.5, 35.9, 90.7, 21.6, 26.7, 33.3]
+print(test(4, inputs, outputs, 1000000, 0.0001).predict([10, 10, 5, 4]))
