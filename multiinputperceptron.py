@@ -55,4 +55,4 @@ print(test(3, inputs, outputs).predict([10, 10, 5]))
 print("\nFour inputs:")
 inputs = [[1, 1, 1, 1], [2, 3, 4, 5], [5, 8, 9, 9], [13, 21, 22, 7], [4, 4, 5, 6], [5, 5, 6, 7], [4, 8, 9, 3]]
 outputs = [5.1, 14.5, 35.9, 90.7, 21.6, 26.7, 33.3]
-print(test(4, inputs, outputs, 1000000, 0.0001).predict([10, 10, 5, 4]))
+print(test(4, inputs, outputs).predict([10, 10, 5, 4]))
