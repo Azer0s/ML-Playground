@@ -4,12 +4,10 @@ from random import random
 class Perceptron:
     def __init__(self, nrOfInputs):
         self.weight = []
-        self.lastInput = []
         for i in range(nrOfInputs):
             self.weight += [random()]
 
     def predict(self, input):
-        self.lastInput = input
         prediction = 0
         for i, val in enumerate(input):
             prediction += self.weight[i] * val
