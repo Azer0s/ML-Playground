@@ -6,9 +6,9 @@ namespace NeuralNetwork
     public class Layer
     {
         private readonly Perceptron[] _perceptrons;
-        private Action<double[]> nextAction;
+        public Action<double[]> nextAction;
 
-        public Layer(int nrOfInputs, int nrOfPerceptrons, double lr, Action<double[]> nextAction)
+        public Layer(int nrOfInputs, int nrOfPerceptrons, double lr, Action<double[]> nextAction = null)
         {
             _perceptrons = new Perceptron[nrOfPerceptrons];
 

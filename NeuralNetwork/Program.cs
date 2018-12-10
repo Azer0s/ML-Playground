@@ -5,7 +5,7 @@ namespace NeuralNetwork
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             var inputs = new[]
             {
@@ -19,40 +19,9 @@ namespace NeuralNetwork
             };
             var outputs = new []{5.1, 14.5, 35.9, 90.7, 21.6, 26.7, 33.3};
 
-            var avgError = double.MaxValue;
-            double[] prediction = null;
-            Layer outputLayer;
-            Layer hiddenLayer2;
-            Layer hiddenLayer1;
-            Layer inputLayer;
-
-            do
-            {
-                avgError = 0.0;
-                outputLayer = new Layer(3, 1, 0.0001, doubles => prediction = doubles);
-                hiddenLayer2 = new Layer(6, 3, 0.001, doubles => outputLayer.Input(doubles));
-                hiddenLayer1 = new Layer(4, 6, 0.0001, doubles => hiddenLayer2.Input(doubles));
-                inputLayer = new Layer(1, 4, 0.0001, doubles => hiddenLayer1.Input(doubles));
-
-                for (var j = 0; j < 100000; j++)
-                {
-                    for (var i = 0; i < inputs.Length; i++)
-                    {
-                        inputLayer.Input(inputs[i], true);
-                        var error = outputs[i] - prediction.First();
-                        outputLayer.Train(error);
-                        hiddenLayer2.Train(error);
-                        hiddenLayer1.Train(error);
-                        inputLayer.Train(error);
-                        avgError = error;
-                    }
-
-                    avgError /= inputs.Length;
-                }
-            } while (!(Math.Abs(avgError) < 5E-6) || double.IsNaN(avgError));
-            
-            inputLayer.Input(new double[]{10, 10, 5, 4},true);
-            Console.WriteLine(prediction.First());
+            var (network, avgError) = Network.Train(4, 0.0001, new[] {6, 3}, new[] {0.0001, 0.001}, 1, 0.0001, inputs,outputs);
+            Console.WriteLine($"Error: {avgError}");
+            Console.WriteLine(network.Predict(new double[]{10, 10, 5, 4}).First());
         }
     }
 }
