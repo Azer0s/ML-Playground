@@ -39,7 +39,7 @@ namespace NeuralNetwork
             return _lastOutput;
         }
 
-        public static (Network network, double avgError) Train(int input, double inputLr, int[] hidden, double[] hiddenLr, int output, double outputLr, double[][] inputVals, double[] outputVals)
+        public static (Network network, double avgError) Train(int input, double inputLr, int[] hidden, double[] hiddenLr, int output, double outputLr, double[][] inputVals, double[][] outputVals)
         {
             double avgError;
             Network network;
@@ -47,13 +47,22 @@ namespace NeuralNetwork
             {
                 network = new Network(input,inputLr,hidden,hiddenLr,output,outputLr);
                 avgError = 0.0;
-
+                var errorIndex = 0;
+                
                 for (var j = 0; j < 100000; j++)
                 {
                     for (var i = 0; i < inputVals.Length; i++)
                     {
-                        var prediction = network.Predict(inputVals[i]).First();
-                        var error = outputVals[i] - prediction;
+                        var prediction = network.Predict(inputVals[i]);
+                        var errorArray = outputVals[i].Select((d, index) => d - prediction[index]).ToArray();
+                        var error = errorArray[errorIndex];
+
+                        errorIndex++;
+                        
+                        if (errorIndex == errorArray.Length)
+                        {
+                            errorIndex = 0;
+                        }
                         
                         network.InputLayer.Train(error);
                         network.OutputLayer.Train(error);

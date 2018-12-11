@@ -17,7 +17,7 @@ namespace NeuralNetwork
                 new double[] {5, 5, 6, 7},
                 new double[] {4, 8, 9, 3}
             };
-            var outputs = new []{5.1, 14.5, 35.9, 90.7, 21.6, 26.7, 33.3};
+            var outputs = new []{new[]{5.1}, new[]{14.5}, new[]{35.9}, new[]{90.7}, new[]{21.6}, new[]{26.7}, new[]{33.3}};
 
             var (network, avgError) = Network.Train(4, 0.0001, new[] {6, 3}, new[] {0.0001, 0.001}, 1, 0.0001, inputs,outputs);
             Console.WriteLine($"Error: {avgError}");
