@@ -1,10 +1,12 @@
 import matplotlib.pyplot as plt
 
 
+# Helper function to separate the columns of our training data
 def column(matrix, i):
     return [row[i] for row in matrix]
 
 
+# Our training data
 points = [[245, 1400],
           [312, 1600],
           [279, 1700],
