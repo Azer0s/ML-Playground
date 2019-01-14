@@ -1,25 +1,23 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+// ReSharper disable PossibleMultipleEnumeration
 
 namespace NeuralNetwork
 {
     public class Perceptron
     {
-        private readonly double[] _weights;
-        private double[] _lastInputs;
         private readonly double _lr;
+        private readonly double[] _weights;
         private double _bias;
-        
+        private double[] _lastInputs;
+
         public Perceptron(int nrOfInputs, double lr)
         {
             _weights = new double[nrOfInputs];
             _bias = new Random().NextDouble();
 
-            for (var i = 0; i < nrOfInputs; i++)
-            {
-                _weights[i] = new Random().NextDouble();
-            }
+            for (var i = 0; i < nrOfInputs; i++) _weights[i] = new Random().NextDouble();
             _lr = lr;
         }
 

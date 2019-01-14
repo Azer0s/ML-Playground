@@ -1,0 +1,41 @@
+digraph G {
+    splines=true;
+    overlap=scalexy;
+    rankdir=LR;
+
+    subgraph cluster_c2 {
+        subgraph cluster_0 {
+            style=filled;
+            color=lightgrey;
+            node [style=filled,color=white];
+
+            w1 [label="input weight"];
+            wBias [label="bias weight"];
+            n1 [color=black,shape=point];
+
+            input -> w1 [weight=1,label="*"];
+            "bias (1)" -> wBias [weight=1,label="*"];
+
+            w1 -> prediction [weight=2, label="+"];
+            wBias -> prediction [weight=1, label="+"];
+
+            {rank=same; input; "bias (1)"};
+            {rank=same; w1; wBias};
+            {rank=same; n1; prediction};
+
+            label = "Perceptron";
+            fontsize = 22;
+        }
+        prediction -> gradient [weight=2, label=<[=expected - prediction]>, fontsize=15];
+
+        dataset -> input [weight=2, label=<<B>input</B>>, fontsize=15];
+        dataset -> gradient[weight=1, label=<<B>expected</B>>, fontsize=15];
+
+        gradient -> n1 [weight=0];
+        n1 -> w1 [label="= 2 * input weight * gradient", fontsize=15];
+        n1 -> wBias [label=" = bias weight + gradient", fontsize=15]
+
+        label = "Training loop";
+        fontsize = 22;
+    }
+}
